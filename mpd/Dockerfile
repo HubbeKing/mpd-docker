@@ -1,6 +1,9 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
-RUN apt update && apt install -y mpd mpdscribble gettext-base
+RUN apt update && apt install -y --no-install-recommends \
+    gettext-base \
+    libpulse0 \
+    mpd
 
 # user details
 ENV USER=hubbe
@@ -12,14 +15,11 @@ RUN groupadd --gid $GID $USER
 RUN useradd --create-home --shell /bin/bash --uid $UID --gid $GID $USER
 
 USER $USER
-# create folder structures used by mpd and mpdscribble
+# create folder structure used by mpd
 RUN mkdir -p /home/$USER/.config/mpd/playlists
-RUN mkdir -p /home/$USER/.mpdscribble
 
 # start.sh copies this into .config/mpd folder after running envsubst
 COPY mpd.conf /home/$USER/
-# start.sh copies this into .mpdscribble folder after running envsubst
-COPY mpdscribble.conf /home/$USER/
 
 COPY start.sh /home/$USER/
 

@@ -1,11 +1,6 @@
-## MPD in Docker
+# MPD and MPDscribble in docker
 
-- When deploying, set the following ENV variables for the container:
-  - `LASTFM_USER`
-  - `LASTFM_PASS`
-  - `PULSEAUDIO_SERVER`
-- Otherwise, mpdscribble will constantly complain, and pulse won't know where to send audio
-- Alternatively, set CMD to `mpd --no-daemonize --stdout` to just run mpd
-- You still need to set `PULSEAUDIO_SERVER` though.
-- An example kubernetes deployment can be found here:
-  - https://github.com/HubbeKing/selfhost-services/tree/master/apps/mpd
+- Simple ubuntu:20.04-based images for running mpd and mpdscribble in a pair of containers
+- Example docker-compose deployment in `docker-compose.yml`
+- Example kubernetes deployment can be found here:
+    - https://github.com/HubbeKing/selfhost-services/tree/master/apps/mpd

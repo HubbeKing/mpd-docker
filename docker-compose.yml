@@ -1,0 +1,22 @@
+version: "3"
+services:
+  mpd:
+    image: hubbeking/music:mpd
+    build:
+      context: ./mpd
+    environment:
+      - PULSEAUDIO_SERVER=192.168.1.100 
+      # pulseaudio server needs to accept connections from docker networks
+    ports:
+      - 6600:6600
+    volumes:
+      - /path/to/music/folder:/music
+  mpdscribble:
+    image: hubbeking/music:mpdscribble
+    build:
+      context: ./mpdscribble
+    environment:
+      - MPD_HOST=mpd
+      - MPD_PORT=6600
+      - LASTFM_USER=LAST_FM_USER_GOES_HERE
+      - LASTFM_PASS=LAST_FM_PASS_GOES_HERE
