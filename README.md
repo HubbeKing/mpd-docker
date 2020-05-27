@@ -8,5 +8,4 @@
 - Alternatively, set CMD to `mpd --no-daemonize --stdout` to just run mpd
 - You still need to set `PULSEAUDIO_SERVER` though.
 - An example kubernetes deployment can be found here:
-  - https://github.com/HubbeKing/selfhost-services/blob/master/apps/mpd-deployment.yaml
-  - https://github.com/HubbeKing/selfhost-services/blob/master/apps/mpd-config.yaml.example
+  - https://github.com/HubbeKing/selfhost-services/tree/master/apps/mpd
