@@ -1,6 +1,23 @@
 #!/bin/bash
 
-envsubst '$PULSEAUDIO_SERVER' < /home/$USER/mpd.conf > /home/$USER/.config/mpd/mpd.conf
+cp /home/$USER/mpd.conf /home/$USER/.config/mpd/mpd.conf
+
+# split $PULSEAUDIO_SERVERS into an array named "pulse_servers"
+IFS=, read -r -d '' -a pulse_servers < <(printf '%s,\0' "$PULSEAUDIO_SERVERS")
+
+# add one audio_output block per host to mpd config file
+
+for server in "${pulse_servers[@]}"; do
+cat << EOF >> /home/$USER/.config/mpd/mpd.conf
+
+audio_output {
+    type    "pulse"
+    name    "$server TCP Output"
+    server  "$server"
+}
+EOF
+
+done
 
 mpd --stdout
 status=$?

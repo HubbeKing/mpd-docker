@@ -5,8 +5,9 @@ services:
     build:
       context: ./mpd
     environment:
-      - PULSEAUDIO_SERVER=192.168.1.100 
-      # pulseaudio server needs to accept connections from docker networks
+      # IPv4 addresses of pulseaudio servers, separated by commas
+      - PULSEAUDIO_SERVERS=192.168.1.100,192.168.1.101
+      # pulseaudio servers need to accept connections from docker networks
     ports:
       - 6600:6600
     volumes:

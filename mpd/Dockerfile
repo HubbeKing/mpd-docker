@@ -1,7 +1,6 @@
 FROM ubuntu:20.04
 
 RUN apt update && apt install -y --no-install-recommends \
-    gettext-base \
     libpulse0 \
     mpd
 
@@ -18,7 +17,7 @@ USER $USER
 # create folder structure used by mpd
 RUN mkdir -p /home/$USER/.config/mpd/playlists
 
-# start.sh copies this into .config/mpd folder after running envsubst
+# start.sh copies this into .config/mpd folder and adds pulseaudio TCP configuration
 COPY mpd.conf /home/$USER/
 
 COPY start.sh /home/$USER/
