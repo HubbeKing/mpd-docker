@@ -12,14 +12,17 @@ ENV GID=1000
 # create user
 RUN groupadd --gid $GID $USER
 RUN useradd --create-home --shell /bin/bash --uid $UID --gid $GID $USER
-
-USER $USER
 # create folder structure used by mpd
 RUN mkdir -p /home/$USER/.config/mpd/playlists
 
-# start.sh copies this into .config/mpd folder and adds pulseaudio TCP configuration
-COPY mpd.conf /home/$USER/
-
+# add mpd config and startup script
+# start.sh adds pulseaudio output configuration to the mpd config based on env var PULSEAUDIO_SERVERS
+COPY mpd.conf /home/$USER/.config/mpd/
 COPY start.sh /home/$USER/
 
-CMD /home/$USER/start.sh
+# ensure correct permissions for user files
+RUN chown -R ${USER}:${USER} /home/${USER}/
+
+USER $USER
+WORKDIR /home/$USER/
+CMD ./start.sh

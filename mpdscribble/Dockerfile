@@ -1,7 +1,6 @@
 FROM ubuntu:20.04
 
 RUN apt update && apt install -y --no-install-recommends \
-    gettext-base \
     mpdscribble
 
 # user details
@@ -13,13 +12,17 @@ ENV GID=1000
 RUN groupadd --gid $GID $USER
 RUN useradd --create-home --shell /bin/bash --uid $UID --gid $GID $USER
 
-USER $USER
 # create folder for mpdscribble config
 RUN mkdir -p /home/$USER/.mpdscribble
 
-# start.sh copies script into right folder after running envsubst
-COPY mpdscribble.conf /home/$USER/
-
+# add config and startup script
+# start.sh adds credentials from env vars to the config
+COPY mpdscribble.conf /home/$USER/.mpdscribble/
 COPY start.sh /home/$USER/
 
-CMD /home/$USER/start.sh
+# ensure permissions are correct for user home
+RUN chown -R ${USER}:${USER} /home/${USER}/
+
+USER $USER
+WORKDIR /home/$USER/
+CMD ./start.sh

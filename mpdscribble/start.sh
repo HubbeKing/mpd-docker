@@ -1,7 +1,12 @@
 #!/bin/bash
 
-envsubst '$LASTFM_USER $LASTFM_PASS' < /home/$USER/mpdscribble.conf > /home/$USER/.mpdscribble/mpdscribble.conf
+# add last.fm credentials from env vars
+cat << EOF >> /home/$USER/.mpdscribble/mpdscribble.conf
+username = $LASTFM_USER
+password = $LASTFM_PASS
+EOF
 
+# start mpdscribble, output to stdout, and monitor status
 mpdscribble --host $MPD_HOST --port $MPD_PORT --log -
 status=$?
 if [ $status -ne 0 ]; then
