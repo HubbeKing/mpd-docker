@@ -2,14 +2,14 @@ kind: pipeline
 type: kubernetes
 name: default
 
-# disable apparmor so buildah isn't prevented from mounting with fuse-overlayfs
-metadata:
-  annotations:
-    container.apparmor.security.beta.kubernetes.io/build: unconfined
 
 steps:
   - name: build
     image: quay.io/buildah/stable:latest
+    # disable apparmor so buildah isn't prevented from mounting with fuse-overlayfs
+    metadata:
+      annotations:
+        container.apparmor.security.beta.kubernetes.io/build: unconfined
     environment:
       # get registry credentials from orgsecrets
       REGISTRY_USERNAME:
